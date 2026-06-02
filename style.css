@@ -1,0 +1,906 @@
+/* ===================================================================
+   UK Driver Tax & Mileage Saver — style.css
+   Dark mode, mobile-first, premium financial dashboard
+   =================================================================== */
+
+/* -------------------------------------------------------------------
+   1. Design Tokens
+   ------------------------------------------------------------------- */
+:root {
+  --color-bg:           #0f172a;
+  --color-surface:      #1e293b;
+  --color-surface-2:    #263248;
+  --color-border:       #334155;
+  --color-text:         #f8fafc;
+  --color-text-muted:   #94a3b8;
+  --color-accent:       #3b82f6;
+  --color-accent-hover: #2563eb;
+  --color-accent-glow:  rgba(59, 130, 246, 0.35);
+  --color-positive:     #22c55e;
+  --color-warning:      #f59e0b;
+  --color-danger:       #ef4444;
+
+  --gradient-takehome: linear-gradient(90deg, #22c55e, #16a34a);
+  --gradient-tax:      linear-gradient(90deg, #ef4444, #dc2626);
+  --gradient-ni:       linear-gradient(90deg, #f59e0b, #d97706);
+  --gradient-expenses: linear-gradient(90deg, #3b82f6, #2563eb);
+
+  --radius-card:  16px;
+  --radius-btn:   10px;
+  --radius-input: 8px;
+  --radius-badge: 999px;
+
+  --shadow-card:     0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-btn-glow: 0 0 20px rgba(59, 130, 246, 0.5);
+
+  --font-family:    'Inter', system-ui, -apple-system, sans-serif;
+  --transition-base: 0.2s ease;
+}
+
+/* -------------------------------------------------------------------
+   2. Reset & Base
+   ------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Remove number input spinners */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* -------------------------------------------------------------------
+   3. Layout
+   ------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.main-content {
+  padding: 1.5rem 0 2rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 1.5rem;
+  }
+  .main-content {
+    padding: 2rem 0 3rem;
+  }
+}
+
+/* -------------------------------------------------------------------
+   4. Ad Slots
+   ------------------------------------------------------------------- */
+.ad-slot {
+  width: 100%;
+  background: transparent;
+  border-top: 1px dashed var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 90px;
+  padding: 1rem;
+}
+
+.ad-slot--top {
+  margin-bottom: 0;
+}
+
+.ad-slot--bottom {
+  margin-top: 0;
+}
+
+.ad-label {
+  color: var(--color-text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  border: 1px dashed var(--color-border);
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+}
+
+/* -------------------------------------------------------------------
+   5. Hero Section
+   ------------------------------------------------------------------- */
+.hero {
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  padding: 2rem 0 2.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hero__brand {
+  font-size: 0.8rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+
+.hero__title {
+  font-size: clamp(1.55rem, 5vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.hero__subtitle {
+  color: var(--color-text-muted);
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  max-width: 520px;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--color-accent);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-badge);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge::before {
+  content: '✓';
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------------------
+   6. Cards
+   ------------------------------------------------------------------- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+
+.card__heading {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: var(--color-text);
+}
+
+@media (min-width: 640px) {
+  .card {
+    padding: 2rem;
+  }
+}
+
+/* -------------------------------------------------------------------
+   7. Form Elements
+   ------------------------------------------------------------------- */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: var(--color-text);
+}
+
+.form-hint {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+/* Input with £ prefix */
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper--prefix .form-input {
+  padding-left: 2.25rem;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 1;
+  font-size: 0.95rem;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-input);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-glow);
+}
+
+.form-input.touched:invalid {
+  border-color: var(--color-danger);
+}
+
+.form-input::placeholder {
+  color: #475569;
+}
+
+/* Custom Select */
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-60%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--color-text-muted);
+  border-bottom: 2px solid var(--color-text-muted);
+  pointer-events: none;
+}
+
+.form-select {
+  width: 100%;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-input);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  outline: none;
+}
+
+.form-select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-glow);
+}
+
+.form-select option {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+/* Privacy Badge */
+.privacy-badge {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background: rgba(34, 197, 94, 0.07);
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-top: 0.75rem;
+}
+
+.privacy-badge strong {
+  color: var(--color-positive);
+  font-weight: 600;
+}
+
+/* Error Message */
+.form-error {
+  color: var(--color-danger);
+  font-size: 0.825rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid var(--color-danger);
+  line-height: 1.4;
+}
+
+/* -------------------------------------------------------------------
+   8. Buttons
+   ------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-btn);
+  cursor: pointer;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.btn--full {
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+}
+
+.btn--primary {
+  background: var(--color-accent);
+  color: #fff;
+  margin-top: 0.5rem;
+}
+
+.btn--primary:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px) scale(1.01);
+  box-shadow: var(--shadow-btn-glow);
+}
+
+.btn--primary:active {
+  transform: translateY(0) scale(0.99);
+  box-shadow: none;
+}
+
+.btn--secondary {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  margin-top: 1.25rem;
+}
+
+.btn--secondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* -------------------------------------------------------------------
+   9. Results Dashboard
+   ------------------------------------------------------------------- */
+
+/* Entrance animation */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card--results:not([hidden]) {
+  animation: slideUp 0.4s ease forwards;
+}
+
+/* Take-Home Hero Block */
+.results-hero {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(34, 197, 94, 0.08));
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.results-hero__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.results-hero__amount {
+  font-size: clamp(2.2rem, 8vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-positive);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.results-hero__amount--zero {
+  color: var(--color-text-muted);
+}
+
+.results-hero__annual {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.results-hero__annual span {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Breakdown Grid */
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 480px) {
+  .breakdown-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.breakdown-item {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.875rem 0.75rem;
+  text-align: center;
+  transition: border-color var(--transition-base);
+}
+
+.breakdown-item--positive {
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+.breakdown-item__label {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.breakdown-item__value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-danger);
+}
+
+.breakdown-item__value--positive {
+  color: var(--color-positive);
+}
+
+/* -------------------------------------------------------------------
+   10. Progress Bars
+   ------------------------------------------------------------------- */
+.progress-section {
+  margin-bottom: 0.5rem;
+}
+
+.progress-section__heading {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 1rem;
+}
+
+.progress-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 44px;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 380px) {
+  .progress-row {
+    grid-template-columns: 80px 1fr 36px;
+  }
+}
+
+.progress-row__label {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.progress-bar {
+  height: 10px;
+  background: var(--color-border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  border-radius: 999px;
+  width: 0%;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-bar__fill--takehome  { background: var(--gradient-takehome); }
+.progress-bar__fill--tax       { background: var(--gradient-tax); }
+.progress-bar__fill--ni        { background: var(--gradient-ni); }
+.progress-bar__fill--expenses  { background: var(--gradient-expenses); }
+
+.progress-row__pct {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+/* -------------------------------------------------------------------
+   11. Disclaimer
+   ------------------------------------------------------------------- */
+.results-disclaimer {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  line-height: 1.6;
+}
+
+/* -------------------------------------------------------------------
+   12. Footer
+   ------------------------------------------------------------------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding: 1.5rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.footer-link {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 0.75rem;
+  transition: color var(--transition-base);
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: var(--color-accent);
+  text-decoration: underline;
+  outline: none;
+}
+
+.footer-link-sep {
+  color: var(--color-border);
+  user-select: none;
+}
+
+/* -------------------------------------------------------------------
+   13. Calculation Steps Accordion
+   ------------------------------------------------------------------- */
+
+/* details container */
+.calc-steps {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 1.25rem;
+  margin-bottom: 0;
+}
+
+/* summary trigger row */
+.calc-steps__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.825rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+  transition: color var(--transition-base), background var(--transition-base);
+  user-select: none;
+  gap: 0.75rem;
+}
+
+/* remove default browser triangle in all engines */
+.calc-steps__trigger::-webkit-details-marker { display: none; }
+.calc-steps__trigger::marker { display: none; }
+
+/* chevron arrow via pseudo-element */
+.calc-steps__trigger::after {
+  content: '';
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.25s ease;
+  margin-left: auto;
+}
+
+.calc-steps__trigger:hover {
+  color: var(--color-accent);
+  background: rgba(59, 130, 246, 0.07);
+}
+
+/* open state: separator + rotated arrow */
+.calc-steps[open] > .calc-steps__trigger {
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.calc-steps[open] > .calc-steps__trigger::after {
+  transform: rotate(225deg) translateY(-2px);
+}
+
+/* accordion body */
+.calc-steps__body {
+  padding: 1.1rem 1rem 1.25rem;
+  background: var(--color-bg);
+}
+
+/* ---- Step groups ---- */
+.calc-step-group {
+  /* no extra margin — dividers handle spacing */
+}
+
+.calc-step-group__title {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--color-accent);
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+/* thin horizontal rule between steps */
+.calc-steps__divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 0.875rem 0;
+  opacity: 0.45;
+}
+
+/* ---- Individual rows ---- */
+.calc-step-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.28rem 0;
+}
+
+/* total/summary row — dashed top separator, bolder weight */
+.calc-step-row--total {
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  margin-top: 0.35rem;
+  padding-top: 0.5rem;
+}
+
+.calc-step-row--total .calc-step-row__desc {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.calc-step-row--total .calc-step-row__val {
+  font-size: 0.9rem;
+}
+
+/* description / equation text */
+.calc-step-row__desc {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  min-width: 0;
+}
+
+/* result value */
+.calc-step-row__val {
+  font-size: 0.835rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* value colour modifiers */
+.calc-step-row__val--positive  { color: var(--color-positive); }
+.calc-step-row__val--deduction { color: var(--color-danger); }
+.calc-step-row__val--accent    { color: var(--color-accent); }
+
+/* -------------------------------------------------------------------
+   14. Print Styles
+   ------------------------------------------------------------------- */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+    font-size: 12pt;
+  }
+
+  body::before {
+    content: "UK Driver Tax Report — " attr(data-report-date);
+    display: block;
+    text-align: center;
+    font-size: 14pt;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #334155;
+    color: #111;
+  }
+
+  .ad-slot,
+  #calculate-btn,
+  #pdf-btn,
+  .site-footer,
+  .hero__brand,
+  .trust-badges,
+  .privacy-badge,
+  .calc-steps,
+  .card--input {
+    display: none !important;
+  }
+
+  .hero {
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+    padding: 0.5rem 0 1rem;
+  }
+
+  .hero__title {
+    color: #111;
+    font-size: 20pt;
+  }
+
+  .hero__subtitle {
+    color: #555;
+  }
+
+  .card {
+    border: 1px solid #ccc;
+    box-shadow: none;
+    background: #fff;
+    color: #111;
+    border-radius: 8px;
+    page-break-inside: avoid;
+  }
+
+  .card__heading {
+    color: #111;
+  }
+
+  .results-hero {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 8px;
+  }
+
+  .results-hero__amount {
+    color: #15803d;
+    font-size: 28pt;
+  }
+
+  .results-hero__label,
+  .results-hero__annual {
+    color: #555;
+  }
+
+  .results-hero__annual span {
+    color: #111;
+  }
+
+  .breakdown-item {
+    border: 1px solid #ccc;
+    background: #f9fafb;
+    border-radius: 6px;
+  }
+
+  .breakdown-item__label {
+    color: #555;
+  }
+
+  .breakdown-item__value {
+    color: #dc2626;
+  }
+
+  .breakdown-item__value--positive {
+    color: #15803d;
+  }
+
+  .progress-bar {
+    background: #e5e7eb;
+  }
+
+  .progress-section__heading,
+  .progress-row__label,
+  .progress-row__pct {
+    color: #555;
+  }
+
+  .results-disclaimer {
+    color: #777;
+    border-top-color: #ccc;
+  }
+}

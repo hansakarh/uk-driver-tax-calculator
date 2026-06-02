@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UK Driver Tax Calculator 2025/26 | Free HMRC Mileage &amp; Tax Saver</title>
+  <meta name="description" content="Free UK driver tax calculator for self-employed taxi, Uber and delivery drivers. Instantly calculate take-home pay, HMRC mileage relief and Class 4 NI for 2025/26.">
+  <meta name="keywords" content="UK driver tax calculator, self-employed mileage relief, HMRC 2025 26, taxi driver tax, Uber driver tax, delivery driver expenses, take home pay calculator">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Driver-Tax.co.uk">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="UK Driver Tax & Mileage Saver | Free 2025/26 Calculator">
+  <meta property="og:description" content="Instantly calculate your HMRC take-home pay, mileage relief and National Insurance — free for self-employed drivers in 2025/26.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://driver-tax.co.uk/">
+  <meta property="og:image" content="https://driver-tax.co.uk/og-image.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="UK Driver Tax & Mileage Saver | Free 2025/26 Calculator">
+  <meta name="twitter:description" content="Free HMRC mileage relief and tax calculator for UK self-employed drivers. Instant results.">
+
+  <link rel="canonical" href="https://driver-tax.co.uk/">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="blog.css">
+
+  <!-- Google AdSense (replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous" defer></script>
+</head>
+<body>
+
+  <!-- Site Navigation -->
+  <nav class="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="container nav__container">
+      <a href="/" class="nav__brand">Driver&#8209;<em>Tax</em>.co.uk</a>
+      <button class="nav__toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav__links" id="nav-links">
+        <li><a href="/" class="nav__link nav__link--active">Calculator</a></li>
+        <li><a href="/blog/" class="nav__link">Tax Guides</a></li>
+        <li><a href="/about" class="nav__link">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Ad Slot: Top Banner -->
+  <div id="ad-slot-top" class="ad-slot ad-slot--top">
+    <div class="ad-label">Advertisement Space</div>
+  </div>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero__brand">Driver-Tax.co.uk</div>
+      <h1 class="hero__title">UK Driver Tax &amp; Mileage Saver</h1>
+      <p class="hero__subtitle">Instantly calculate your HMRC take-home pay, mileage relief and National Insurance — free for self-employed drivers in 2025/26.</p>
+      <div class="trust-badges">
+        <span class="badge">HMRC Compliant 2025/26</span>
+        <span class="badge">Free Calculator</span>
+        <span class="badge">Instant Results</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Input Form Card -->
+      <section class="card card--input" aria-labelledby="form-heading">
+        <h2 class="card__heading" id="form-heading">Enter Your Details</h2>
+        <form id="tax-form" novalidate>
+
+          <!-- Gross Earnings -->
+          <div class="form-group">
+            <label for="gross-earnings" class="form-label">
+              Gross Earnings <span class="form-hint">(before expenses)</span>
+            </label>
+            <div class="input-wrapper input-wrapper--prefix">
+              <span class="input-prefix">£</span>
+              <input
+                type="number"
+                id="gross-earnings"
+                name="grossEarnings"
+                class="form-input"
+                min="0"
+                max="9999999.99"
+                step="0.01"
+                placeholder="0.00"
+                aria-label="Gross earnings in pounds"
+                required
+              >
+            </div>
+          </div>
+
+          <!-- Earnings Period -->
+          <div class="form-group">
+            <label for="earnings-period" class="form-label">Earnings Period</label>
+            <div class="select-wrapper">
+              <select
+                id="earnings-period"
+                name="earningsPeriod"
+                class="form-select"
+                aria-label="Select earnings period"
+              >
+                <option value="weekly">Weekly</option>
+                <option value="monthly" selected>Monthly</option>
+                <option value="annually">Annually</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Annual Business Mileage -->
+          <div class="form-group">
+            <label for="annual-mileage" class="form-label">
+              Annual Business Mileage <span class="form-hint">(miles)</span>
+            </label>
+            <input
+              type="number"
+              id="annual-mileage"
+              name="annualMileage"
+              class="form-input"
+              min="0"
+              max="500000"
+              step="1"
+              placeholder="0"
+              aria-label="Annual business mileage in miles"
+            >
+          </div>
+
+          <!-- Other Allowable Expenses -->
+          <div class="form-group">
+            <label for="other-expenses" class="form-label">
+              Other Allowable Expenses <span class="form-hint">(annual total)</span>
+            </label>
+            <div class="input-wrapper input-wrapper--prefix">
+              <span class="input-prefix">£</span>
+              <input
+                type="number"
+                id="other-expenses"
+                name="otherExpenses"
+                class="form-input"
+                min="0"
+                max="9999999.99"
+                step="0.01"
+                placeholder="0.00"
+                aria-label="Other allowable expenses in pounds"
+              >
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div id="form-error" class="form-error" role="alert" aria-live="polite" hidden></div>
+
+          <!-- Privacy Badge -->
+          <div class="privacy-badge" aria-label="Privacy assurance">
+            🔒 <strong>100% Private:</strong> Your data is processed locally on your device and is never stored on our servers.
+          </div>
+
+          <!-- CTA Button -->
+          <button type="submit" id="calculate-btn" class="btn btn--primary btn--full" aria-label="Calculate my tax">
+            Calculate My Tax
+          </button>
+
+        </form>
+      </section>
+
+      <!-- Results Dashboard Card (hidden until calculation runs) -->
+      <section class="card card--results" id="results-card" aria-labelledby="results-heading" hidden>
+        <h2 class="card__heading" id="results-heading">Your Tax Breakdown</h2>
+
+        <!-- Take-Home Hero Block -->
+        <div class="results-hero">
+          <p class="results-hero__label">Estimated Monthly Take-Home</p>
+          <p class="results-hero__amount" id="monthly-takehome">£0.00</p>
+          <p class="results-hero__annual">Annual: <span id="annual-takehome">£0.00</span></p>
+        </div>
+
+        <!-- 4-Column Breakdown Grid -->
+        <div class="breakdown-grid" role="list">
+          <div class="breakdown-item" role="listitem">
+            <span class="breakdown-item__label">Income Tax</span>
+            <span class="breakdown-item__value" id="income-tax-value">£0.00</span>
+          </div>
+          <div class="breakdown-item" role="listitem">
+            <span class="breakdown-item__label">Class 4 NI</span>
+            <span class="breakdown-item__value" id="class4-ni-value">£0.00</span>
+          </div>
+          <div class="breakdown-item breakdown-item--positive" role="listitem">
+            <span class="breakdown-item__label">Mileage Savings</span>
+            <span class="breakdown-item__value breakdown-item__value--positive" id="mileage-relief-value">£0.00</span>
+          </div>
+          <div class="breakdown-item breakdown-item--positive" role="listitem">
+            <span class="breakdown-item__label">Total Expenses</span>
+            <span class="breakdown-item__value breakdown-item__value--positive" id="total-expenses-value">£0.00</span>
+          </div>
+        </div>
+
+        <!-- Visual Progress Bars -->
+        <div class="progress-section" aria-label="Tax breakdown proportions">
+          <h3 class="progress-section__heading">Where Your Money Goes</h3>
+
+          <div class="progress-row">
+            <span class="progress-row__label">Take-Home Pay</span>
+            <div class="progress-bar" role="progressbar" aria-label="Take-home pay proportion">
+              <div class="progress-bar__fill progress-bar__fill--takehome" id="bar-takehome"></div>
+            </div>
+            <span class="progress-row__pct" id="pct-takehome">0%</span>
+          </div>
+
+          <div class="progress-row">
+            <span class="progress-row__label">Income Tax</span>
+            <div class="progress-bar" role="progressbar" aria-label="Income tax proportion">
+              <div class="progress-bar__fill progress-bar__fill--tax" id="bar-tax"></div>
+            </div>
+            <span class="progress-row__pct" id="pct-tax">0%</span>
+          </div>
+
+          <div class="progress-row">
+            <span class="progress-row__label">Nat. Insurance</span>
+            <div class="progress-bar" role="progressbar" aria-label="National insurance proportion">
+              <div class="progress-bar__fill progress-bar__fill--ni" id="bar-ni"></div>
+            </div>
+            <span class="progress-row__pct" id="pct-ni">0%</span>
+          </div>
+
+          <div class="progress-row">
+            <span class="progress-row__label">Expenses &amp; Relief</span>
+            <div class="progress-bar" role="progressbar" aria-label="Expenses and relief proportion">
+              <div class="progress-bar__fill progress-bar__fill--expenses" id="bar-expenses"></div>
+            </div>
+            <span class="progress-row__pct" id="pct-expenses">0%</span>
+          </div>
+        </div>
+
+        <!-- Calculation Breakdown Accordion -->
+        <details class="calc-steps">
+          <summary class="calc-steps__trigger">
+            <span>💡 View Calculation Steps &amp; Logic</span>
+          </summary>
+          <div class="calc-steps__body">
+
+            <!-- Step 1: Annualised Gross -->
+            <div class="calc-step-group">
+              <p class="calc-step-group__title">Step 1 &mdash; Annualised Gross Earnings</p>
+              <div class="calc-step-row calc-step-row--total">
+                <span class="calc-step-row__desc" id="cs-gross-desc">—</span>
+                <span class="calc-step-row__val" id="cs-gross-val">—</span>
+              </div>
+            </div>
+
+            <div class="calc-steps__divider" aria-hidden="true"></div>
+
+            <!-- Step 2: Mileage Relief -->
+            <div class="calc-step-group">
+              <p class="calc-step-group__title">Step 2 &mdash; HMRC Mileage Relief (AMAP 2025/26)</p>
+              <div class="calc-step-row">
+                <span class="calc-step-row__desc" id="cs-mile-first-desc">—</span>
+                <span class="calc-step-row__val calc-step-row__val--positive" id="cs-mile-first-val">—</span>
+              </div>
+              <div class="calc-step-row" id="cs-mile-extra-row" hidden>
+                <span class="calc-step-row__desc" id="cs-mile-extra-desc">—</span>
+                <span class="calc-step-row__val calc-step-row__val--positive" id="cs-mile-extra-val">—</span>
+              </div>
+              <div class="calc-step-row calc-step-row--total">
+                <span class="calc-step-row__desc">Total Mileage Relief</span>
+                <span class="calc-step-row__val calc-step-row__val--positive" id="cs-mile-total-val">—</span>
+              </div>
+            </div>
+
+            <div class="calc-steps__divider" aria-hidden="true"></div>
+
+            <!-- Step 3: Net Taxable Profit -->
+            <div class="calc-step-group">
+              <p class="calc-step-group__title">Step 3 &mdash; Net Taxable Profit</p>
+              <div class="calc-step-row">
+                <span class="calc-step-row__desc">Other Allowable Expenses</span>
+                <span class="calc-step-row__val calc-step-row__val--positive" id="cs-other-exp-val">—</span>
+              </div>
+              <div class="calc-step-row">
+                <span class="calc-step-row__desc">Total Deductions (Mileage Relief + Expenses)</span>
+                <span class="calc-step-row__val" id="cs-total-ded-val">—</span>
+              </div>
+              <div class="calc-step-row calc-step-row--total">
+                <span class="calc-step-row__desc" id="cs-net-profit-desc">—</span>
+                <span class="calc-step-row__val calc-step-row__val--accent" id="cs-net-profit-val">—</span>
+              </div>
+            </div>
+
+            <div class="calc-steps__divider" aria-hidden="true"></div>
+
+            <!-- Step 4: Income Tax -->
+            <div class="calc-step-group">
+              <p class="calc-step-group__title">Step 4 &mdash; Income Tax (Self Assessment)</p>
+              <div class="calc-step-row">
+                <span class="calc-step-row__desc">Personal Allowance (2025/26 tax-free threshold)</span>
+                <span class="calc-step-row__val calc-step-row__val--positive">&minus;£12,570.00</span>
+              </div>
+              <div class="calc-step-row">
+                <span class="calc-step-row__desc">Taxable Income</span>
+                <span class="calc-step-row__val" id="cs-taxable-income-val">—</span>
+              </div>
+              <div class="calc-step-row">
+                <span class="calc-step-row__desc" id="cs-tax-basic-desc">—</span>
+                <span class="calc-step-row__val calc-step-row__val--deduction" id="cs-tax-basic-val">—</span>
+              </div>
+              <div class="calc-step-row" id="cs-tax-higher-row" hidden>
+                <span class="calc-step-row__desc" id="cs-tax-higher-desc">—</span>
+                <span class="calc-step-row__val calc-step-row__val--deduction" id="cs-tax-higher-val">—</span>
+              </div>
+              <div class="calc-step-row calc-step-row--total">
+                <span class="calc-step-row__desc">Total Income Tax</span>
+                <span class="calc-step-row__val calc-step-row__val--deduction" id="cs-tax-total-val">—</span>
+              </div>
+            </div>
+
+            <div class="calc-steps__divider" aria-hidden="true"></div>
+
+            <!-- Step 5: Class 4 NI -->
+            <div class="calc-step-group">
+              <p class="calc-step-group__title">Step 5 &mdash; Class 4 National Insurance</p>
+              <div class="calc-step-row">
+                <span class="calc-step-row__desc" id="cs-ni-lower-desc">—</span>
+                <span class="calc-step-row__val calc-step-row__val--deduction" id="cs-ni-lower-val">—</span>
+              </div>
+              <div class="calc-step-row" id="cs-ni-upper-row" hidden>
+                <span class="calc-step-row__desc" id="cs-ni-upper-desc">—</span>
+                <span class="calc-step-row__val calc-step-row__val--deduction" id="cs-ni-upper-val">—</span>
+              </div>
+              <div class="calc-step-row calc-step-row--total">
+                <span class="calc-step-row__desc">Total Class 4 NI</span>
+                <span class="calc-step-row__val calc-step-row__val--deduction" id="cs-ni-total-val">—</span>
+              </div>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- PDF Download Button -->
+        <button type="button" id="pdf-btn" class="btn btn--secondary btn--full">
+          Download Full Tax Report (PDF)
+        </button>
+
+        <!-- Disclaimer -->
+        <p class="results-disclaimer">
+          Estimates based on HMRC 2025/26 rates for self-employed sole traders. Income tax uses basic rate (20%) and higher rate (40%) bands. Class 4 NI at 6% and 2%. Personal allowance taper above £100,000 not applied. This tool is for guidance only and does not constitute financial or tax advice. Consult a qualified accountant for personalised advice.
+        </p>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Ad Slot: Bottom Banner -->
+  <div id="ad-slot-bottom" class="ad-slot ad-slot--bottom">
+    <div class="ad-label">Advertisement Space</div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="/" class="footer-brand-link">Driver-Tax.co.uk</a>
+          <p class="footer-tagline">Free HMRC mileage relief &amp; tax calculator for UK self-employed taxi, Uber, and delivery drivers. 2025/26 tax year.</p>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col__heading">Tools</p>
+          <ul class="footer-links-list">
+            <li><a href="/" class="footer-link">Tax Calculator</a></li>
+            <li><a href="/blog/" class="footer-link">Tax Guides</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col__heading">Legal</p>
+          <ul class="footer-links-list">
+            <li><a href="/privacy-policy" class="footer-link">Privacy Policy</a></li>
+            <li><a href="/terms" class="footer-link">Terms &amp; Conditions</a></li>
+            <li><a href="/about" class="footer-link">About &amp; Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Driver-Tax.co.uk &mdash; Not affiliated with HMRC. For guidance only.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    (function(){var t=document.getElementById('nav-toggle'),l=document.getElementById('nav-links');if(t&&l){t.addEventListener('click',function(){var o=l.classList.toggle('nav__links--open');t.setAttribute('aria-expanded',String(o));});}})();
+  </script>
+</body>
+</html>

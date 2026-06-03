@@ -785,7 +785,185 @@ input[type="number"]::-webkit-inner-spin-button {
 .calc-step-row__val--accent    { color: var(--color-accent); }
 
 /* -------------------------------------------------------------------
-   14. Print Styles
+   14. Page Layout — Two-column with sticky sidebar
+   ------------------------------------------------------------------- */
+.page-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2rem;
+}
+
+.page-layout__main {
+  flex: 1;
+  min-width: 0;       /* prevents flex children overflowing */
+  max-width: 680px;
+}
+
+.page-layout__sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 68px;          /* clears the 56px nav + 12px breathing room */
+}
+
+/* Collapse to single column when viewport is too narrow for two columns */
+@media (max-width: 980px) {
+  .page-layout {
+    flex-direction: column;
+    max-width: 680px;
+  }
+
+  .page-layout__sidebar {
+    width: 100%;
+    position: static;
+  }
+}
+
+@media (min-width: 640px) {
+  .page-layout {
+    padding: 2rem 1.5rem 3rem;
+  }
+}
+
+/* -------------------------------------------------------------------
+   15. Sidebar Ad Slot — Recommended Services
+   ------------------------------------------------------------------- */
+.ad-slot-sidebar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.ad-slot-sidebar__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Accent dot before the label */
+.ad-slot-sidebar__header::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.ad-slot-sidebar__label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.ad-slot-sidebar__unit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ad-slot-sidebar__unit--tall {
+  min-height: 260px;
+}
+
+.ad-slot-sidebar__unit:last-child {
+  border-bottom: none;
+}
+
+.ad-slot-sidebar__placeholder {
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #3d4f6a;
+}
+
+/* -------------------------------------------------------------------
+   16. Recommended Services Bottom Banner
+   ------------------------------------------------------------------- */
+.ad-banner-recommended {
+  padding: 0 0 1.25rem;
+}
+
+.ad-banner-recommended__inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .ad-banner-recommended__inner {
+    padding: 0 1.5rem;
+  }
+}
+
+.ad-banner-recommended__card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ad-banner-recommended__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.875rem;
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ad-banner-recommended__header::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.ad-banner-recommended__label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.ad-banner-recommended__slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  padding: 0.875rem 1rem;
+}
+
+.ad-banner-recommended__placeholder {
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #3d4f6a;
+}
+
+/* -------------------------------------------------------------------
+   17. Print Styles
    ------------------------------------------------------------------- */
 @media print {
   * {
@@ -819,7 +997,9 @@ input[type="number"]::-webkit-inner-spin-button {
   .trust-badges,
   .privacy-badge,
   .calc-steps,
-  .card--input {
+  .card--input,
+  .page-layout__sidebar,
+  .ad-banner-recommended {
     display: none !important;
   }
 

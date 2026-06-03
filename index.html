@@ -73,7 +73,8 @@
 
   <!-- Main Content -->
   <main class="main-content">
-    <div class="container">
+    <div class="page-layout">
+      <div class="page-layout__main">
 
       <!-- Input Form Card -->
       <section class="card card--input" aria-labelledby="form-heading">
@@ -357,8 +358,42 @@
 
       </section>
 
-    </div>
+      </div><!-- /.page-layout__main -->
+
+      <!-- Sidebar: Recommended Services -->
+      <aside class="page-layout__sidebar" aria-label="Recommended services">
+        <div class="ad-slot-sidebar">
+          <div class="ad-slot-sidebar__header">
+            <p class="ad-slot-sidebar__label">Recommended Services</p>
+          </div>
+          <div class="ad-slot-sidebar__unit">
+            <!-- AdSense 300×250 unit A -->
+            <span class="ad-slot-sidebar__placeholder">Advertisement</span>
+          </div>
+          <div class="ad-slot-sidebar__unit ad-slot-sidebar__unit--tall">
+            <!-- AdSense 300×250 unit B -->
+            <span class="ad-slot-sidebar__placeholder">Advertisement</span>
+          </div>
+        </div>
+      </aside>
+
+    </div><!-- /.page-layout -->
   </main>
+
+  <!-- Recommended Services Bottom Banner -->
+  <div class="ad-banner-recommended">
+    <div class="ad-banner-recommended__inner">
+      <div class="ad-banner-recommended__card">
+        <div class="ad-banner-recommended__header">
+          <p class="ad-banner-recommended__label">Recommended Services</p>
+        </div>
+        <div class="ad-banner-recommended__slot">
+          <!-- AdSense 728×90 leaderboard / responsive -->
+          <span class="ad-banner-recommended__placeholder">Advertisement</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Ad Slot: Bottom Banner -->
   <div id="ad-slot-bottom" class="ad-slot ad-slot--bottom">

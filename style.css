@@ -787,16 +787,22 @@ input[type="number"]::-webkit-inner-spin-button {
 /* -------------------------------------------------------------------
    14. Page Layout — Three-column grid with sticky sidebars
    ------------------------------------------------------------------- */
+/* To re-enable sidebars: restore the three values commented out below,
+   remove the temporary single-column overrides, and delete the hide block. */
 .page-layout {
   display: grid;
-  grid-template-columns: 280px 1fr 280px;
-  grid-template-areas: "sidebar-left main sidebar-right";
+  grid-template-columns: 1fr;                            /* was: 280px 1fr 280px */
+  grid-template-areas: "main";                           /* was: "sidebar-left main sidebar-right" */
   gap: 1.5rem;
-  max-width: 1320px;
+  max-width: 680px;                                      /* was: 1320px */
   margin: 0 auto;
   padding: 0 1.5rem;
   align-items: start;
 }
+
+/* ── TEMPORARY: hide sidebars until traffic justifies ad revenue ── */
+.page-layout__sidebar--left,
+.page-layout__sidebar--right { display: none; }
 
 .page-layout__main {
   grid-area: main;

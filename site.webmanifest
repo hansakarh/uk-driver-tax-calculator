@@ -1,0 +1,21 @@
+{
+  "name": "UK Driver Tax & Mileage Saver",
+  "short_name": "Driver Tax",
+  "description": "Free HMRC mileage relief and tax calculator for UK self-employed drivers. 2025/26 tax year.",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#0f172a",
+  "background_color": "#0f172a"
+}

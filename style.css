@@ -785,51 +785,53 @@ input[type="number"]::-webkit-inner-spin-button {
 .calc-step-row__val--accent    { color: var(--color-accent); }
 
 /* -------------------------------------------------------------------
-   14. Page Layout — Two-column with sticky sidebar
+   14. Page Layout — Three-column grid with sticky sidebars
    ------------------------------------------------------------------- */
 .page-layout {
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 280px 1fr 280px;
+  grid-template-areas: "sidebar-left main sidebar-right";
   gap: 1.5rem;
-  max-width: 1040px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 2rem;
+  padding: 0 1.5rem;
+  align-items: start;
 }
 
 .page-layout__main {
-  flex: 1;
-  min-width: 0;       /* prevents flex children overflowing */
-  max-width: 680px;
+  grid-area: main;
+  min-width: 0;
 }
 
-.page-layout__sidebar {
-  width: 300px;
-  flex-shrink: 0;
+.page-layout__sidebar--left {
+  grid-area: sidebar-left;
   position: sticky;
-  top: 68px;          /* clears the 56px nav + 12px breathing room */
+  top: 68px;
 }
 
-/* Collapse to single column when viewport is too narrow for two columns */
-@media (max-width: 980px) {
+.page-layout__sidebar--right {
+  grid-area: sidebar-right;
+  position: sticky;
+  top: 68px;
+}
+
+/* Below 1100px: hide both sidebars, collapse to centered single column */
+@media (max-width: 1099px) {
   .page-layout {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-areas: "main";
     max-width: 680px;
+    padding: 0 1rem;
   }
 
-  .page-layout__sidebar {
-    width: 100%;
-    position: static;
-  }
-}
-
-@media (min-width: 640px) {
-  .page-layout {
-    padding: 2rem 1.5rem 3rem;
+  .page-layout__sidebar--left,
+  .page-layout__sidebar--right {
+    display: none;
   }
 }
 
 /* -------------------------------------------------------------------
-   15. Sidebar Ad Slot — Recommended Services
+   15. Sidebar Ad Slots — Recommended Services
    ------------------------------------------------------------------- */
 .ad-slot-sidebar {
   background: var(--color-surface);
@@ -847,7 +849,6 @@ input[type="number"]::-webkit-inner-spin-button {
   border-bottom: 1px solid var(--color-border);
 }
 
-/* Accent dot before the label */
 .ad-slot-sidebar__header::before {
   content: '';
   display: block;
@@ -867,6 +868,7 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
+/* Standard 300×250 unit */
 .ad-slot-sidebar__unit {
   display: flex;
   align-items: center;
@@ -876,85 +878,18 @@ input[type="number"]::-webkit-inner-spin-button {
   border-bottom: 1px solid var(--color-border);
 }
 
-.ad-slot-sidebar__unit--tall {
-  min-height: 260px;
+.ad-slot-sidebar__unit--tall { min-height: 260px; }
+
+/* 160×600 skyscraper unit — used on the left sidebar */
+.ad-slot-sidebar__unit--skyscraper {
+  min-height: 620px;
+  align-items: flex-start;
+  padding-top: 1rem;
 }
 
-.ad-slot-sidebar__unit:last-child {
-  border-bottom: none;
-}
+.ad-slot-sidebar__unit:last-child { border-bottom: none; }
 
 .ad-slot-sidebar__placeholder {
-  font-size: 0.68rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-  color: #3d4f6a;
-}
-
-/* -------------------------------------------------------------------
-   16. Recommended Services Bottom Banner
-   ------------------------------------------------------------------- */
-.ad-banner-recommended {
-  padding: 0 0 1.25rem;
-}
-
-.ad-banner-recommended__inner {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-@media (min-width: 640px) {
-  .ad-banner-recommended__inner {
-    padding: 0 1.5rem;
-  }
-}
-
-.ad-banner-recommended__card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.ad-banner-recommended__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 0.875rem;
-  background: var(--color-surface-2);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.ad-banner-recommended__header::before {
-  content: '';
-  display: block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  flex-shrink: 0;
-}
-
-.ad-banner-recommended__label {
-  font-size: 0.66rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
-  margin: 0;
-}
-
-.ad-banner-recommended__slot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100px;
-  padding: 0.875rem 1rem;
-}
-
-.ad-banner-recommended__placeholder {
   font-size: 0.68rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -998,8 +933,8 @@ input[type="number"]::-webkit-inner-spin-button {
   .privacy-badge,
   .calc-steps,
   .card--input,
-  .page-layout__sidebar,
-  .ad-banner-recommended {
+  .page-layout__sidebar--left,
+  .page-layout__sidebar--right {
     display: none !important;
   }
 

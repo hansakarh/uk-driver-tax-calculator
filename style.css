@@ -800,9 +800,14 @@ input[type="number"]::-webkit-inner-spin-button {
   align-items: start;
 }
 
-/* ── TEMPORARY: hide sidebars until traffic justifies ad revenue ── */
+/* ── TEMPORARY: all ad spaces hidden until traffic justifies ad revenue ──
+   To re-enable: delete this entire block and restore the three-column
+   grid values commented out in .page-layout above.                      */
+.ad-slot,
+.ad-slot--top,
+.ad-slot--bottom,
 .page-layout__sidebar--left,
-.page-layout__sidebar--right { display: none; }
+.page-layout__sidebar--right { display: none !important; }
 
 .page-layout__main {
   grid-area: main;

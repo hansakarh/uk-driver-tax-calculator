@@ -236,6 +236,102 @@ input[type="number"]::-webkit-inner-spin-button {
   font-weight: 400;
 }
 
+/* -------------------------------------------------------------------
+   Expense Method Selector
+   ------------------------------------------------------------------- */
+.method-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.625rem;
+  margin-top: 0.25rem;
+}
+
+.method-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.75rem 0.875rem;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-family);
+  transition: border-color var(--transition-base),
+              background   var(--transition-base),
+              box-shadow   var(--transition-base);
+  width: 100%;
+}
+
+.method-btn:hover {
+  border-color: var(--color-accent);
+  background: rgba(59, 130, 246, 0.04);
+}
+
+.method-btn--active {
+  border-color: var(--color-accent);
+  background: rgba(59, 130, 246, 0.09);
+  box-shadow: 0 0 0 3px var(--color-accent-glow);
+}
+
+.method-btn__icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.method-btn__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.method-btn__title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.25;
+}
+
+.method-btn--active .method-btn__title { color: var(--color-accent); }
+
+.method-btn__sub {
+  font-size: 0.67rem;
+  color: var(--color-text-muted);
+  line-height: 1.3;
+}
+
+/* Expense sections — smooth max-height reveal/collapse */
+.expense-section {
+  max-height: 800px;
+  overflow: hidden;
+  opacity: 1;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity    0.25s ease;
+}
+
+.expense-section--hidden {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Field helper text */
+.field-helper {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid rgba(59, 130, 246, 0.4);
+  border-radius: 0 6px 6px 0;
+}
+
+.field-helper strong { color: var(--color-text); }
+
 /* Label + tooltip trigger row */
 .form-label-wrap {
   display: flex;
@@ -1096,6 +1192,8 @@ input[type="number"]::-webkit-inner-spin-button {
   .calc-steps,
   .card--input,
   .tooltip-wrap,
+  .method-selector,
+  .expense-section--hidden,
   .page-layout__sidebar--left,
   .page-layout__sidebar--right {
     display: none !important;

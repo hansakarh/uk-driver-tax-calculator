@@ -150,60 +150,108 @@
             </div>
           </div>
 
-          <!-- Annual Business Mileage -->
+          <!-- Expense Method Selector -->
           <div class="form-group">
-            <div class="form-label-wrap">
-              <label for="annual-mileage" class="form-label">
-                Annual Business Mileage <span class="form-hint">(miles)</span>
-              </label>
-              <span class="tooltip-wrap">
-                <button type="button" class="tooltip-btn" aria-expanded="false" aria-controls="tip-mileage" aria-label="About mileage allowance">ⓘ</button>
-                <span class="tooltip-panel" id="tip-mileage" role="tooltip">
-                  HMRC allows <strong>45p per mile</strong> for the first 10,000 miles, then <strong>25p per mile</strong> thereafter. This single rate covers fuel, insurance, and vehicle wear &amp; tear — no separate receipts needed.
+            <p class="form-label">Choose Expense Method</p>
+            <div class="method-selector" role="group" aria-label="Choose how to calculate vehicle expenses">
+              <button type="button" id="method-mileage" class="method-btn method-btn--active" aria-pressed="true">
+                <span class="method-btn__icon">🚗</span>
+                <span class="method-btn__body">
+                  <span class="method-btn__title">HMRC Mileage Rate</span>
+                  <span class="method-btn__sub">Simplified — no fuel receipts needed</span>
                 </span>
-              </span>
+              </button>
+              <button type="button" id="method-actual" class="method-btn" aria-pressed="false">
+                <span class="method-btn__icon">🧾</span>
+                <span class="method-btn__body">
+                  <span class="method-btn__title">Actual Bills / Receipts</span>
+                  <span class="method-btn__sub">Claim real vehicle costs</span>
+                </span>
+              </button>
             </div>
-            <input
-              type="number"
-              id="annual-mileage"
-              name="annualMileage"
-              class="form-input"
-              min="0"
-              max="500000"
-              step="1"
-              placeholder="0"
-              aria-label="Annual business mileage in miles"
-            >
           </div>
 
-          <!-- Other Allowable Expenses -->
-          <div class="form-group">
-            <div class="form-label-wrap">
-              <label for="other-expenses" class="form-label">
-                Other Allowable Expenses <span class="form-hint">(annual total)</span>
-              </label>
-              <span class="tooltip-wrap">
-                <button type="button" class="tooltip-btn" aria-expanded="false" aria-controls="tip-expenses" aria-label="About allowable expenses">ⓘ</button>
-                <span class="tooltip-panel" id="tip-expenses" role="tooltip">
-                  Instead of mileage, you can claim <strong>actual vehicle costs</strong>: fuel, servicing, repairs, and hire-and-reward insurance. You cannot claim both the mileage rate and actual costs for the same vehicle — choose one method.
+          <!-- HMRC Mileage Rate Section -->
+          <div id="section-mileage" class="expense-section">
+
+            <div class="form-group">
+              <div class="form-label-wrap">
+                <label for="annual-mileage" class="form-label">
+                  Annual Business Mileage <span class="form-hint">(miles)</span>
+                </label>
+                <span class="tooltip-wrap">
+                  <button type="button" class="tooltip-btn" aria-expanded="false" aria-controls="tip-mileage" aria-label="About mileage allowance">ⓘ</button>
+                  <span class="tooltip-panel" id="tip-mileage" role="tooltip">
+                    HMRC allows <strong>45p per mile</strong> for the first 10,000 miles, then <strong>25p per mile</strong> thereafter. This covers fuel, insurance, and wear &amp; tear — no separate receipts needed.
+                  </span>
                 </span>
-              </span>
-            </div>
-            <div class="input-wrapper input-wrapper--prefix">
-              <span class="input-prefix">£</span>
+              </div>
               <input
                 type="number"
-                id="other-expenses"
-                name="otherExpenses"
+                id="annual-mileage"
+                name="annualMileage"
                 class="form-input"
                 min="0"
-                max="9999999.99"
-                step="0.01"
-                placeholder="0.00"
-                aria-label="Other allowable expenses in pounds"
+                max="500000"
+                step="1"
+                placeholder="0"
+                aria-label="Annual business mileage in miles"
               >
             </div>
-          </div>
+
+            <div class="form-group">
+              <label for="other-expenses" class="form-label">
+                Other Non-Vehicle Expenses <span class="form-hint">(annual total)</span>
+              </label>
+              <div class="input-wrapper input-wrapper--prefix">
+                <span class="input-prefix">£</span>
+                <input
+                  type="number"
+                  id="other-expenses"
+                  name="otherExpenses"
+                  class="form-input"
+                  min="0"
+                  max="9999999.99"
+                  step="0.01"
+                  placeholder="0.00"
+                  aria-label="Other non-vehicle business expenses in pounds"
+                >
+              </div>
+              <p class="field-helper">
+                <strong>Include:</strong> Licensing fees, business phone bills, dashcams, passenger supplies, or accountant fees.
+                <br><strong>Do NOT include</strong> fuel, insurance, or repairs — these are already covered by your mileage rate.
+              </p>
+            </div>
+
+          </div><!-- /#section-mileage -->
+
+          <!-- Actual Bills / Receipts Section -->
+          <div id="section-actual" class="expense-section expense-section--hidden">
+
+            <div class="form-group">
+              <label for="actual-expenses" class="form-label">
+                Total Business Expenses <span class="form-hint">(annual total)</span>
+              </label>
+              <div class="input-wrapper input-wrapper--prefix">
+                <span class="input-prefix">£</span>
+                <input
+                  type="number"
+                  id="actual-expenses"
+                  name="actualExpenses"
+                  class="form-input"
+                  min="0"
+                  max="9999999.99"
+                  step="0.01"
+                  placeholder="0.00"
+                  aria-label="Total annual business expenses in pounds"
+                >
+              </div>
+              <p class="field-helper">
+                <strong>Include:</strong> Fuel, taxi insurance, servicing, repairs, licensing fees, phone bills, and all other business costs combined.
+              </p>
+            </div>
+
+          </div><!-- /#section-actual -->
 
           <!-- Hours Worked per Week -->
           <div class="form-group">
@@ -336,8 +384,8 @@
 
             <div class="calc-steps__divider" aria-hidden="true"></div>
 
-            <!-- Step 2: Mileage Relief -->
-            <div class="calc-step-group">
+            <!-- Step 2a: HMRC Mileage Relief (shown for mileage method) -->
+            <div class="calc-step-group" id="cs-step2-mileage">
               <p class="calc-step-group__title">Step 2 &mdash; HMRC Mileage Relief (AMAP 2025/26)</p>
               <div class="calc-step-row">
                 <span class="calc-step-row__desc" id="cs-mile-first-desc">—</span>
@@ -353,17 +401,26 @@
               </div>
             </div>
 
+            <!-- Step 2b: Actual Business Expenses (shown for actual method) -->
+            <div class="calc-step-group" id="cs-step2-actual" hidden>
+              <p class="calc-step-group__title">Step 2 &mdash; Total Business Expenses (Actual Method)</p>
+              <div class="calc-step-row calc-step-row--total">
+                <span class="calc-step-row__desc">All business expenses entered</span>
+                <span class="calc-step-row__val calc-step-row__val--positive" id="cs-actual-exp-val">—</span>
+              </div>
+            </div>
+
             <div class="calc-steps__divider" aria-hidden="true"></div>
 
             <!-- Step 3: Net Taxable Profit -->
             <div class="calc-step-group">
               <p class="calc-step-group__title">Step 3 &mdash; Net Taxable Profit</p>
-              <div class="calc-step-row">
-                <span class="calc-step-row__desc">Other Allowable Expenses</span>
+              <div class="calc-step-row" id="cs-other-exp-row">
+                <span class="calc-step-row__desc">Other Non-Vehicle Expenses</span>
                 <span class="calc-step-row__val calc-step-row__val--positive" id="cs-other-exp-val">—</span>
               </div>
               <div class="calc-step-row">
-                <span class="calc-step-row__desc">Total Deductions (Mileage Relief + Expenses)</span>
+                <span class="calc-step-row__desc" id="cs-total-ded-label">Total Deductions (Mileage Relief + Expenses)</span>
                 <span class="calc-step-row__val" id="cs-total-ded-val">—</span>
               </div>
               <div class="calc-step-row calc-step-row--total">

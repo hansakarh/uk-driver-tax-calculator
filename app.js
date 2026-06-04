@@ -4,10 +4,11 @@
    Input Security Limits
    ------------------------------------------------------------------- */
 const INPUT_LIMITS = {
-  earnings: { max: 9999999.99, decimals: true  },
-  mileage:  { max: 500000,     decimals: false },
-  expenses: { max: 9999999.99, decimals: true  },
-  hours:    { max: 168,        decimals: true  },
+  earnings:       { max: 9999999.99, decimals: true  },
+  mileage:        { max: 500000,     decimals: false },
+  expenses:       { max: 9999999.99, decimals: true  },
+  actualExpenses: { max: 9999999.99, decimals: true  },
+  hours:          { max: 168,        decimals: true  },
 };
 
 /* -------------------------------------------------------------------
@@ -58,6 +59,12 @@ function cacheDOMElements() {
     pdfBtn:             document.getElementById('pdf-btn'),
     hoursWorked:        document.getElementById('hours-worked'),
     realHourlyRate:     document.getElementById('real-hourly-rate'),
+    // Expense method selector
+    methodMileage:      document.getElementById('method-mileage'),
+    methodActual:       document.getElementById('method-actual'),
+    sectionMileage:     document.getElementById('section-mileage'),
+    sectionActual:      document.getElementById('section-actual'),
+    actualExpenses:     document.getElementById('actual-expenses'),
     // Calculation breakdown accordion
     csGrossDesc:        document.getElementById('cs-gross-desc'),
     csGrossVal:         document.getElementById('cs-gross-val'),
@@ -84,6 +91,11 @@ function cacheDOMElements() {
     csNiUpperDesc:      document.getElementById('cs-ni-upper-desc'),
     csNiUpperVal:       document.getElementById('cs-ni-upper-val'),
     csNiTotalVal:       document.getElementById('cs-ni-total-val'),
+    csStep2Mileage:     document.getElementById('cs-step2-mileage'),
+    csStep2Actual:      document.getElementById('cs-step2-actual'),
+    csActualExpVal:     document.getElementById('cs-actual-exp-val'),
+    csOtherExpRow:      document.getElementById('cs-other-exp-row'),
+    csTotalDedLabel:    document.getElementById('cs-total-ded-label'),
   };
 }
 
@@ -170,7 +182,7 @@ function setBarWidth(barEl, pctEl, percentage) {
 /* -------------------------------------------------------------------
    Core Tax Calculation (pure function — no DOM access)
    ------------------------------------------------------------------- */
-function calculateTax(grossEarnings, period, annualMileage, otherExpenses) {
+function calculateTax(grossEarnings, period, annualMileage, otherExpenses, method, actualExpenses) {
   // Step 1: Annualise gross earnings
   let annualGross;
   if (period === 'weekly') {
@@ -181,15 +193,23 @@ function calculateTax(grossEarnings, period, annualMileage, otherExpenses) {
     annualGross = grossEarnings;
   }
 
-  // Step 2: HMRC Approved Mileage Allowance (AMAP) — split into tiers for breakdown display
-  const milesFirst   = Math.min(annualMileage, HMRC.MILEAGE_THRESHOLD);
-  const milesExtra   = Math.max(0, annualMileage - HMRC.MILEAGE_THRESHOLD);
-  const mileageFirst = milesFirst * HMRC.MILEAGE_RATE_FIRST;
-  const mileageExtra = milesExtra * HMRC.MILEAGE_RATE_AFTER;
-  const mileageRelief = mileageFirst + mileageExtra;
+  // Step 2: Deductions — method-dependent
+  var milesFirst, milesExtra, mileageFirst, mileageExtra, mileageRelief, totalDeductions;
 
-  // Step 3: Total allowable deductions
-  const totalDeductions = mileageRelief + otherExpenses;
+  if (method === 'actual') {
+    milesFirst = milesExtra = mileageFirst = mileageExtra = mileageRelief = 0;
+    totalDeductions = actualExpenses;
+  } else {
+    // HMRC Approved Mileage Allowance (AMAP) — split into tiers for breakdown display
+    milesFirst   = Math.min(annualMileage, HMRC.MILEAGE_THRESHOLD);
+    milesExtra   = Math.max(0, annualMileage - HMRC.MILEAGE_THRESHOLD);
+    mileageFirst = milesFirst * HMRC.MILEAGE_RATE_FIRST;
+    mileageExtra = milesExtra * HMRC.MILEAGE_RATE_AFTER;
+    mileageRelief   = mileageFirst + mileageExtra;
+    totalDeductions = mileageRelief + otherExpenses;
+  }
+
+  // Step 3: Total allowable deductions (already set above)
 
   // Step 4: Net taxable profit (cannot go below zero)
   const netProfit = Math.max(0, annualGross - totalDeductions);
@@ -241,7 +261,9 @@ function calculateTax(grossEarnings, period, annualMileage, otherExpenses) {
     // Breakdown values (used by the calculation steps accordion)
     inputGross: grossEarnings,
     period,
+    method,
     otherExpenses,
+    actualExpenses: method === 'actual' ? actualExpenses : 0,
     milesFirst,
     milesExtra,
     mileageFirst,
@@ -260,7 +282,7 @@ function calculateTax(grossEarnings, period, annualMileage, otherExpenses) {
 /* -------------------------------------------------------------------
    Input Validation
    ------------------------------------------------------------------- */
-function validateInputs(gross, period, mileage, expenses) {
+function validateInputs(gross, period, mileage, expenses, method, actualExpenses) {
   if (!isFinite(gross) || gross <= 0) {
     return { valid: false, message: 'Please enter a valid gross earnings amount greater than zero.' };
   }
@@ -270,11 +292,17 @@ function validateInputs(gross, period, mileage, expenses) {
   if (!['weekly', 'monthly', 'annually'].includes(period)) {
     return { valid: false, message: 'Please select a valid earnings period.' };
   }
-  if (!isFinite(mileage) || mileage < 0 || mileage > 500000) {
-    return { valid: false, message: 'Please enter a valid annual mileage between 0 and 500,000 miles.' };
-  }
-  if (!isFinite(expenses) || expenses < 0) {
-    return { valid: false, message: 'Other expenses cannot be negative.' };
+  if (method === 'mileage') {
+    if (!isFinite(mileage) || mileage < 0 || mileage > 500000) {
+      return { valid: false, message: 'Please enter a valid annual mileage between 0 and 500,000 miles.' };
+    }
+    if (!isFinite(expenses) || expenses < 0) {
+      return { valid: false, message: 'Other non-vehicle expenses cannot be negative.' };
+    }
+  } else {
+    if (!isFinite(actualExpenses) || actualExpenses < 0) {
+      return { valid: false, message: 'Total business expenses cannot be negative.' };
+    }
   }
   return { valid: true };
 }
@@ -292,20 +320,36 @@ function populateBreakdown(r) {
   }
   DOM.csGrossVal.textContent = formatCurrency(r.annualGross);
 
-  // Step 2: Mileage Relief
-  DOM.csMileFirstDesc.textContent = formatNumber(r.milesFirst) + ' miles × £0.45 per mile';
-  DOM.csMileFirstVal.textContent  = formatCurrency(r.mileageFirst);
-  if (r.milesExtra > 0) {
-    DOM.csMileExtraRow.removeAttribute('hidden');
-    DOM.csMileExtraDesc.textContent = formatNumber(r.milesExtra) + ' miles × £0.25 per mile';
-    DOM.csMileExtraVal.textContent  = formatCurrency(r.mileageExtra);
+  // Step 2: toggle between mileage group and actual group
+  if (r.method === 'actual') {
+    DOM.csStep2Mileage.setAttribute('hidden', '');
+    DOM.csStep2Actual.removeAttribute('hidden');
+    DOM.csActualExpVal.textContent = formatCurrency(r.actualExpenses);
   } else {
-    DOM.csMileExtraRow.setAttribute('hidden', '');
+    DOM.csStep2Actual.setAttribute('hidden', '');
+    DOM.csStep2Mileage.removeAttribute('hidden');
+    DOM.csMileFirstDesc.textContent = formatNumber(r.milesFirst) + ' miles × £0.45 per mile';
+    DOM.csMileFirstVal.textContent  = formatCurrency(r.mileageFirst);
+    if (r.milesExtra > 0) {
+      DOM.csMileExtraRow.removeAttribute('hidden');
+      DOM.csMileExtraDesc.textContent = formatNumber(r.milesExtra) + ' miles × £0.25 per mile';
+      DOM.csMileExtraVal.textContent  = formatCurrency(r.mileageExtra);
+    } else {
+      DOM.csMileExtraRow.setAttribute('hidden', '');
+    }
+    DOM.csMileTotalVal.textContent = formatCurrency(r.mileageRelief);
   }
-  DOM.csMileTotalVal.textContent = formatCurrency(r.mileageRelief);
 
   // Step 3: Net Taxable Profit
-  DOM.csOtherExpVal.textContent  = formatCurrency(r.otherExpenses);
+  // Show/hide the "other expenses" row and update deductions label based on method
+  if (r.method === 'actual') {
+    DOM.csOtherExpRow.setAttribute('hidden', '');
+    DOM.csTotalDedLabel.textContent = 'Total Business Expenses (actual)';
+  } else {
+    DOM.csOtherExpRow.removeAttribute('hidden');
+    DOM.csOtherExpVal.textContent = formatCurrency(r.otherExpenses);
+    DOM.csTotalDedLabel.textContent = 'Total Deductions (Mileage Relief + Expenses)';
+  }
   DOM.csTotalDedVal.textContent  = formatCurrency(r.totalDeductions);
   DOM.csNetProfitDesc.textContent = formatCurrency(r.annualGross)
     + ' − ' + formatCurrency(r.totalDeductions);
@@ -412,23 +456,39 @@ function updateResults(results) {
    ------------------------------------------------------------------- */
 let hasCalculatedOnce = false;
 
+function getExpenseMethod() {
+  return DOM.methodMileage.getAttribute('aria-pressed') === 'true' ? 'mileage' : 'actual';
+}
+
+function switchExpenseMethod(method) {
+  var isMileage = method === 'mileage';
+  DOM.methodMileage.setAttribute('aria-pressed', String(isMileage));
+  DOM.methodActual.setAttribute('aria-pressed', String(!isMileage));
+  DOM.methodMileage.classList.toggle('method-btn--active', isMileage);
+  DOM.methodActual.classList.toggle('method-btn--active', !isMileage);
+  DOM.sectionMileage.classList.toggle('expense-section--hidden', !isMileage);
+  DOM.sectionActual.classList.toggle('expense-section--hidden', isMileage);
+}
+
 function handleSubmit(event) {
   event.preventDefault();
   clearError();
 
-  const gross    = parseInput(DOM.grossEarnings);
-  const period   = DOM.earningsPeriod.value;
-  const mileage  = parseInput(DOM.annualMileage);
-  const expenses = parseInput(DOM.otherExpenses);
+  const gross          = parseInput(DOM.grossEarnings);
+  const period         = DOM.earningsPeriod.value;
+  const method         = getExpenseMethod();
+  const mileage        = parseInput(DOM.annualMileage);
+  const expenses       = parseInput(DOM.otherExpenses);
+  const actualExpenses = parseInput(DOM.actualExpenses);
 
-  const validation = validateInputs(gross, period, mileage, expenses);
+  const validation = validateInputs(gross, period, mileage, expenses, method, actualExpenses);
   if (!validation.valid) {
     showError(validation.message);
     DOM.grossEarnings.focus();
     return;
   }
 
-  const results = calculateTax(gross, period, mileage, expenses);
+  const results = calculateTax(gross, period, mileage, expenses, method, actualExpenses);
   updateResults(results);
   hasCalculatedOnce = true;
 }
@@ -436,16 +496,18 @@ function handleSubmit(event) {
 function handleLiveRecalc() {
   if (!hasCalculatedOnce) return;
 
-  const gross    = parseInput(DOM.grossEarnings);
-  const period   = DOM.earningsPeriod.value;
-  const mileage  = parseInput(DOM.annualMileage);
-  const expenses = parseInput(DOM.otherExpenses);
+  const gross          = parseInput(DOM.grossEarnings);
+  const period         = DOM.earningsPeriod.value;
+  const method         = getExpenseMethod();
+  const mileage        = parseInput(DOM.annualMileage);
+  const expenses       = parseInput(DOM.otherExpenses);
+  const actualExpenses = parseInput(DOM.actualExpenses);
 
-  const validation = validateInputs(gross, period, mileage, expenses);
+  const validation = validateInputs(gross, period, mileage, expenses, method, actualExpenses);
   if (!validation.valid) return;
 
   clearError();
-  const results = calculateTax(gross, period, mileage, expenses);
+  const results = calculateTax(gross, period, mileage, expenses, method, actualExpenses);
   updateResults(results);
 }
 
@@ -459,11 +521,22 @@ document.addEventListener('DOMContentLoaded', function () {
   DOM.form.addEventListener('submit', handleSubmit);
 
   // Sanitize, validate styling, and live-recalc for each numeric input
+  // Method selector buttons
+  DOM.methodMileage.addEventListener('click', function () {
+    switchExpenseMethod('mileage');
+    handleLiveRecalc();
+  });
+  DOM.methodActual.addEventListener('click', function () {
+    switchExpenseMethod('actual');
+    handleLiveRecalc();
+  });
+
   var numericInputConfigs = [
-    { el: DOM.grossEarnings, max: INPUT_LIMITS.earnings.max, decimals: true  },
-    { el: DOM.annualMileage,  max: INPUT_LIMITS.mileage.max,  decimals: false },
-    { el: DOM.otherExpenses, max: INPUT_LIMITS.expenses.max, decimals: true  },
-    { el: DOM.hoursWorked,   max: INPUT_LIMITS.hours.max,    decimals: true  },
+    { el: DOM.grossEarnings,  max: INPUT_LIMITS.earnings.max,       decimals: true  },
+    { el: DOM.annualMileage,  max: INPUT_LIMITS.mileage.max,        decimals: false },
+    { el: DOM.otherExpenses,  max: INPUT_LIMITS.expenses.max,       decimals: true  },
+    { el: DOM.actualExpenses, max: INPUT_LIMITS.actualExpenses.max, decimals: true  },
+    { el: DOM.hoursWorked,    max: INPUT_LIMITS.hours.max,          decimals: true  },
   ];
 
   numericInputConfigs.forEach(function (cfg) {
@@ -486,6 +559,25 @@ document.addEventListener('DOMContentLoaded', function () {
   // Tooltips
   initTooltips();
 });
+
+/* -------------------------------------------------------------------
+   Dynamic Expenses Tooltip — switches wording based on mileage entry
+   ------------------------------------------------------------------- */
+function updateExpensesTooltip(hasMileage) {
+  var panel = document.getElementById('tip-expenses');
+  if (!panel) return;
+  if (hasMileage) {
+    panel.innerHTML =
+      'Since you entered mileage, <strong>do not include</strong> fuel, ' +
+      'insurance, or vehicle repairs here. Only add non-vehicle costs: ' +
+      'licensing fees, phone bills, or accountant fees.';
+  } else {
+    panel.innerHTML =
+      'Enter the grand total of <strong>all</strong> your business expenses ' +
+      'here, including fuel, vehicle insurance, repairs, licensing fees, ' +
+      'and phone bills.';
+  }
+}
 
 /* -------------------------------------------------------------------
    Tooltips — click/tap toggle; :hover also handled via CSS for desktop

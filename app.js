@@ -7,6 +7,7 @@ const INPUT_LIMITS = {
   earnings: { max: 9999999.99, decimals: true  },
   mileage:  { max: 500000,     decimals: false },
   expenses: { max: 9999999.99, decimals: true  },
+  hours:    { max: 168,        decimals: true  },
 };
 
 /* -------------------------------------------------------------------
@@ -55,6 +56,8 @@ function cacheDOMElements() {
     pctNi:              document.getElementById('pct-ni'),
     pctExpenses:        document.getElementById('pct-expenses'),
     pdfBtn:             document.getElementById('pdf-btn'),
+    hoursWorked:        document.getElementById('hours-worked'),
+    realHourlyRate:     document.getElementById('real-hourly-rate'),
     // Calculation breakdown accordion
     csGrossDesc:        document.getElementById('cs-gross-desc'),
     csGrossVal:         document.getElementById('cs-gross-val'),
@@ -360,6 +363,18 @@ function updateResults(results) {
   DOM.mileageReliefValue.textContent = formatCurrency(results.mileageRelief);
   DOM.totalExpensesValue.textContent = formatCurrency(results.totalDeductions);
 
+  // Real hourly earnings
+  var hoursPerWeek = parseInput(DOM.hoursWorked);
+  if (hoursPerWeek > 0) {
+    var weeklyTakehome = results.annualTakehome / 52;
+    var hourlyRate     = weeklyTakehome / hoursPerWeek;
+    DOM.realHourlyRate.textContent = formatCurrency(hourlyRate) + ' / hr';
+    DOM.realHourlyRate.classList.remove('hourly-rate-card__value--empty');
+  } else {
+    DOM.realHourlyRate.textContent = 'Enter hours above ↑';
+    DOM.realHourlyRate.classList.add('hourly-rate-card__value--empty');
+  }
+
   // Zero take-home colour variant
   if (results.annualTakehome === 0) {
     DOM.monthlyTakehome.classList.add('results-hero__amount--zero');
@@ -448,6 +463,7 @@ document.addEventListener('DOMContentLoaded', function () {
     { el: DOM.grossEarnings, max: INPUT_LIMITS.earnings.max, decimals: true  },
     { el: DOM.annualMileage,  max: INPUT_LIMITS.mileage.max,  decimals: false },
     { el: DOM.otherExpenses, max: INPUT_LIMITS.expenses.max, decimals: true  },
+    { el: DOM.hoursWorked,   max: INPUT_LIMITS.hours.max,    decimals: true  },
   ];
 
   numericInputConfigs.forEach(function (cfg) {
@@ -466,4 +482,45 @@ document.addEventListener('DOMContentLoaded', function () {
   DOM.pdfBtn.addEventListener('click', function () {
     window.print();
   });
+
+  // Tooltips
+  initTooltips();
 });
+
+/* -------------------------------------------------------------------
+   Tooltips — click/tap toggle; :hover also handled via CSS for desktop
+   ------------------------------------------------------------------- */
+function initTooltips() {
+  var btns = document.querySelectorAll('.tooltip-btn');
+
+  btns.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var panelId = btn.getAttribute('aria-controls');
+      var panel   = document.getElementById(panelId);
+      var isOpen  = btn.getAttribute('aria-expanded') === 'true';
+
+      // Close every tooltip first
+      btns.forEach(function (b) {
+        b.setAttribute('aria-expanded', 'false');
+        var p = document.getElementById(b.getAttribute('aria-controls'));
+        if (p) p.classList.remove('tooltip-panel--open');
+      });
+
+      // Then open this one if it was closed
+      if (!isOpen && panel) {
+        btn.setAttribute('aria-expanded', 'true');
+        panel.classList.add('tooltip-panel--open');
+      }
+    });
+  });
+
+  // Tap anywhere outside closes all tooltips
+  document.addEventListener('click', function () {
+    btns.forEach(function (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      var p = document.getElementById(btn.getAttribute('aria-controls'));
+      if (p) p.classList.remove('tooltip-panel--open');
+    });
+  });
+}

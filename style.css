@@ -236,6 +236,109 @@ input[type="number"]::-webkit-inner-spin-button {
   font-weight: 400;
 }
 
+/* Label + tooltip trigger row */
+.form-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.form-label-wrap .form-label {
+  margin-bottom: 0;
+}
+
+/* ---- Tooltip component ---- */
+.tooltip-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tooltip-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: var(--color-accent);
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  flex-shrink: 0;
+  transition: background var(--transition-base), border-color var(--transition-base);
+}
+
+.tooltip-btn:hover,
+.tooltip-btn[aria-expanded="true"] {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: var(--color-accent);
+}
+
+.tooltip-panel {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  background: #1a2540;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 0.75rem 0.875rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  z-index: 300;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  text-align: left;
+  white-space: normal;
+}
+
+.tooltip-panel strong { color: var(--color-text); }
+
+/* Down-pointing arrow */
+.tooltip-panel::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: #1a2540;
+}
+
+/* Show on desktop hover OR JS-toggled class */
+.tooltip-wrap:hover .tooltip-panel,
+.tooltip-panel--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Reposition on very narrow screens so it doesn't clip off-screen */
+@media (max-width: 420px) {
+  .tooltip-panel {
+    left: 0;
+    transform: none;
+    width: min(260px, calc(100vw - 2.5rem));
+  }
+  .tooltip-panel::after {
+    left: 16px;
+    transform: none;
+  }
+}
+
 /* Input with £ prefix */
 .input-wrapper {
   position: relative;
@@ -480,6 +583,54 @@ input[type="number"]::-webkit-inner-spin-button {
 .results-hero__annual span {
   color: var(--color-text);
   font-weight: 600;
+}
+
+/* Real Hourly Earnings Card */
+.hourly-rate-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(34, 197, 94, 0.06);
+  border: 1px solid rgba(34, 197, 94, 0.22);
+  border-radius: 12px;
+  padding: 0.875rem 1.125rem;
+  margin-bottom: 1.5rem;
+}
+
+.hourly-rate-card__left {
+  min-width: 0;
+}
+
+.hourly-rate-card__title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  margin-bottom: 0.2rem;
+}
+
+.hourly-rate-card__sub {
+  font-size: 0.68rem;
+  color: var(--color-text-muted);
+}
+
+.hourly-rate-card__value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-positive);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+  text-align: right;
+}
+
+.hourly-rate-card__value--empty {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  letter-spacing: 0;
 }
 
 /* Breakdown Grid */
@@ -944,6 +1095,7 @@ input[type="number"]::-webkit-inner-spin-button {
   .privacy-badge,
   .calc-steps,
   .card--input,
+  .tooltip-wrap,
   .page-layout__sidebar--left,
   .page-layout__sidebar--right {
     display: none !important;

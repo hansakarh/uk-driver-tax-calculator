@@ -146,9 +146,17 @@
 
           <!-- Annual Business Mileage -->
           <div class="form-group">
-            <label for="annual-mileage" class="form-label">
-              Annual Business Mileage <span class="form-hint">(miles)</span>
-            </label>
+            <div class="form-label-wrap">
+              <label for="annual-mileage" class="form-label">
+                Annual Business Mileage <span class="form-hint">(miles)</span>
+              </label>
+              <span class="tooltip-wrap">
+                <button type="button" class="tooltip-btn" aria-expanded="false" aria-controls="tip-mileage" aria-label="About mileage allowance">ⓘ</button>
+                <span class="tooltip-panel" id="tip-mileage" role="tooltip">
+                  HMRC allows <strong>45p per mile</strong> for the first 10,000 miles, then <strong>25p per mile</strong> thereafter. This single rate covers fuel, insurance, and vehicle wear &amp; tear — no separate receipts needed.
+                </span>
+              </span>
+            </div>
             <input
               type="number"
               id="annual-mileage"
@@ -164,9 +172,17 @@
 
           <!-- Other Allowable Expenses -->
           <div class="form-group">
-            <label for="other-expenses" class="form-label">
-              Other Allowable Expenses <span class="form-hint">(annual total)</span>
-            </label>
+            <div class="form-label-wrap">
+              <label for="other-expenses" class="form-label">
+                Other Allowable Expenses <span class="form-hint">(annual total)</span>
+              </label>
+              <span class="tooltip-wrap">
+                <button type="button" class="tooltip-btn" aria-expanded="false" aria-controls="tip-expenses" aria-label="About allowable expenses">ⓘ</button>
+                <span class="tooltip-panel" id="tip-expenses" role="tooltip">
+                  Instead of mileage, you can claim <strong>actual vehicle costs</strong>: fuel, servicing, repairs, and hire-and-reward insurance. You cannot claim both the mileage rate and actual costs for the same vehicle — choose one method.
+                </span>
+              </span>
+            </div>
             <div class="input-wrapper input-wrapper--prefix">
               <span class="input-prefix">£</span>
               <input
@@ -181,6 +197,26 @@
                 aria-label="Other allowable expenses in pounds"
               >
             </div>
+          </div>
+
+          <!-- Hours Worked per Week -->
+          <div class="form-group">
+            <div class="form-label-wrap">
+              <label for="hours-worked" class="form-label">
+                Hours Worked per Week <span class="form-hint">(optional)</span>
+              </label>
+            </div>
+            <input
+              type="number"
+              id="hours-worked"
+              name="hoursWorked"
+              class="form-input"
+              min="0"
+              max="168"
+              step="0.5"
+              placeholder="e.g. 40"
+              aria-label="Hours worked per week"
+            >
           </div>
 
           <!-- Error Message -->
@@ -208,6 +244,15 @@
           <p class="results-hero__label">Estimated Monthly Take-Home</p>
           <p class="results-hero__amount" id="monthly-takehome">£0.00</p>
           <p class="results-hero__annual">Annual: <span id="annual-takehome">£0.00</span></p>
+        </div>
+
+        <!-- Real Hourly Earnings Card -->
+        <div class="hourly-rate-card">
+          <div class="hourly-rate-card__left">
+            <p class="hourly-rate-card__title">Real Hourly Earnings</p>
+            <p class="hourly-rate-card__sub">net take-home per hour worked</p>
+          </div>
+          <p class="hourly-rate-card__value" id="real-hourly-rate">Enter hours above ↑</p>
         </div>
 
         <!-- 4-Column Breakdown Grid -->

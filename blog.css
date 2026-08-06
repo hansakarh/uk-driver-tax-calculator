@@ -456,6 +456,13 @@
   margin-bottom: 0.4rem !important;
 }
 
+.table-scroll {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+
+.table-scroll .example-table { margin: 0; }
+
 /* Example / data table */
 .example-table {
   width: 100%;

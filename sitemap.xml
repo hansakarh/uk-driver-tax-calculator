@@ -19,8 +19,50 @@
 
   <!-- Blog articles -->
   <url>
+    <loc>https://driver-tax.co.uk/blog/uk-taxi-driver-tax-guide-2026</loc>
+    <lastmod>2026-07-22</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://driver-tax.co.uk/blog/uber-driver-expenses-uk</loc>
     <lastmod>2026-08-07</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://driver-tax.co.uk/blog/uber-driver-mileage-deduction-2025</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://driver-tax.co.uk/blog/minicab-driver-tax-return-guide</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://driver-tax.co.uk/blog/multi-app-driver-tax-uk</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://driver-tax.co.uk/blog/sole-trader-vs-limited-company-taxi-driver</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://driver-tax.co.uk/blog/making-tax-digital-self-employed-drivers-2026</loc>
+    <lastmod>2026-06-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>

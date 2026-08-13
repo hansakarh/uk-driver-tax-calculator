@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://driver-tax.co.uk/sitemap.xml
